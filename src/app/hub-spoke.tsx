@@ -1,28 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 interface NodeData {
   emoji: string;
   label: string;
 }
 
-const SET_A: NodeData[] = [
+const ITEMS: NodeData[] = [
   { emoji: "\u{1F4CA}", label: "Analytics" },
   { emoji: "\u{1F4B3}", label: "Billing" },
   { emoji: "\u{1F465}", label: "Teams" },
   { emoji: "\u{1F512}", label: "Security" },
   { emoji: "\u26A1", label: "API" },
   { emoji: "\u{1F4C8}", label: "Growth" },
-];
-
-const SET_B: NodeData[] = [
-  { emoji: "\u{1F504}", label: "Subscriptions" },
-  { emoji: "\u{1F3AF}", label: "Projects" },
-  { emoji: "\u{1F4E7}", label: "Invoices" },
-  { emoji: "\u{1F6E1}\uFE0F", label: "Auth" },
-  { emoji: "\u{1F48E}", label: "Pro" },
-  { emoji: "\u{1F30D}", label: "Global" },
 ];
 
 // 6 nodes in hex around center (280,280) at radius 190 in 560×560 box
@@ -48,56 +37,6 @@ const PARTICLES = [
 ];
 
 export function HubAndSpoke() {
-  const [items, setItems] = useState(SET_A);
-  const [fading, setFading] = useState<Set<number>>(new Set());
-  const [nodeKeys, setNodeKeys] = useState([0, 0, 0, 0, 0, 0]);
-
-  // Icon cycling: starts after 1.5s, swaps 3 random nodes every 2s
-  useEffect(() => {
-    let intervalId: ReturnType<typeof setInterval>;
-
-    const startDelay = setTimeout(() => {
-      intervalId = setInterval(() => {
-        // Pick 3 unique random indices
-        const indices: number[] = [];
-        while (indices.length < 3) {
-          const idx = Math.floor(Math.random() * 6);
-          if (!indices.includes(idx)) indices.push(idx);
-        }
-
-        // Shrink + fade out (200ms)
-        setFading(new Set(indices));
-
-        // Swap items + bounce in
-        setTimeout(() => {
-          setItems((prev) => {
-            const next = [...prev];
-            for (const idx of indices) {
-              next[idx] =
-                prev[idx].emoji === SET_A[idx].emoji
-                  ? SET_B[idx]
-                  : SET_A[idx];
-            }
-            return next;
-          });
-          setNodeKeys((prev) => {
-            const next = [...prev];
-            for (const idx of indices) {
-              next[idx]++;
-            }
-            return next;
-          });
-          setFading(new Set());
-        }, 200);
-      }, 2000);
-    }, 1500);
-
-    return () => {
-      clearTimeout(startDelay);
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, []);
-
   return (
     <>
       {/* Desktop (md+) — fills parent container */}
@@ -208,7 +147,7 @@ export function HubAndSpoke() {
             />
           </div>
 
-          {/* Center node — scale in, then pulse */}
+          {/* Center node — scale in, then subtle pulse */}
           <div
             className="absolute"
             style={{
@@ -229,23 +168,15 @@ export function HubAndSpoke() {
                 willChange: "transform",
               }}
             >
-              {/* Inner rotation wrapper */}
-              <div
-                style={{
-                  animation: "hub-center-rotate 20s linear infinite",
-                  willChange: "transform",
-                }}
-              >
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
-                  <rect x="2" y="14" width="20" height="8" rx="2.5" fill="#0666EB" />
-                  <rect x="4" y="8" width="16" height="8" rx="2.5" fill="#0666EB" opacity="0.45" />
-                  <rect x="6" y="2" width="12" height="8" rx="2" fill="#0666EB" opacity="0.2" />
-                </svg>
-              </div>
+              <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="14" width="20" height="8" rx="2.5" fill="#191C1F" />
+                <rect x="4" y="8" width="16" height="8" rx="2.5" fill="#191C1F" opacity="0.4" />
+                <rect x="6" y="2" width="12" height="8" rx="2" fill="#191C1F" opacity="0.15" />
+              </svg>
             </div>
           </div>
 
-          {/* Feature nodes — entrance slide, then bounce on swap */}
+          {/* Feature nodes — entrance slide, then static */}
           {NODES.map((node, i) => (
             <div
               key={i}
@@ -258,41 +189,18 @@ export function HubAndSpoke() {
                 animation: `hub-node-in 400ms ease-out ${700 + i * 150}ms forwards`,
               }}
             >
-              <div
-                key={nodeKeys[i]}
-                className="w-14 h-14 bg-white border border-gray-200 rounded-xl shadow-sm flex items-center justify-center text-2xl"
-                style={
-                  nodeKeys[i] > 0
-                    ? {
-                        animation:
-                          "hub-node-bounce 300ms ease-out forwards",
-                        willChange: "transform, opacity",
-                      }
-                    : {
-                        opacity: fading.has(i) ? 0 : 1,
-                        transform: fading.has(i) ? "scale(0.8)" : "scale(1)",
-                        transition:
-                          "opacity 200ms ease-out, transform 200ms ease-out",
-                      }
-                }
-              >
-                {items[i].emoji}
+              <div className="w-14 h-14 bg-white border border-gray-200 rounded-xl shadow-sm flex items-center justify-center text-2xl">
+                {ITEMS[i].emoji}
               </div>
-              <span
-                className="text-[11px] font-medium text-gray-400"
-                style={{
-                  opacity: fading.has(i) ? 0 : 1,
-                  transition: "opacity 200ms ease-out",
-                }}
-              >
-                {items[i].label}
+              <span className="text-[11px] font-medium text-gray-400">
+                {ITEMS[i].label}
               </span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Mobile (< md) — compact grid, same cycling + bounce */}
+      {/* Mobile (< md) — compact grid, static icons */}
       <div className="hub-container flex md:hidden flex-col items-center py-4">
         <div
           className="w-16 h-16 bg-white border-2 border-[#191C1F] rounded-full flex items-center justify-center mb-6"
@@ -305,21 +213,14 @@ export function HubAndSpoke() {
               "0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0,0,0,0.04)",
           }}
         >
-          <div
-            style={{
-              animation: "hub-center-rotate 20s linear infinite",
-              willChange: "transform",
-            }}
-          >
-            <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none">
-              <rect x="2" y="14" width="20" height="8" rx="2.5" fill="#0666EB" />
-              <rect x="4" y="8" width="16" height="8" rx="2.5" fill="#0666EB" opacity="0.45" />
-              <rect x="6" y="2" width="12" height="8" rx="2" fill="#0666EB" opacity="0.2" />
-            </svg>
-          </div>
+          <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="14" width="20" height="8" rx="2.5" fill="#191C1F" />
+            <rect x="4" y="8" width="16" height="8" rx="2.5" fill="#191C1F" opacity="0.4" />
+            <rect x="6" y="2" width="12" height="8" rx="2" fill="#191C1F" opacity="0.15" />
+          </svg>
         </div>
         <div className="grid grid-cols-3 gap-4">
-          {items.map((item, i) => (
+          {ITEMS.map((item, i) => (
             <div
               key={i}
               className="flex flex-col items-center gap-1.5"
@@ -328,33 +229,10 @@ export function HubAndSpoke() {
                 animation: `hub-mobile-in 400ms ease-out ${300 + i * 100}ms forwards`,
               }}
             >
-              <div
-                key={nodeKeys[i]}
-                className="w-14 h-14 bg-white border border-gray-200 rounded-xl shadow-sm flex items-center justify-center text-2xl"
-                style={
-                  nodeKeys[i] > 0
-                    ? {
-                        animation:
-                          "hub-node-bounce 300ms ease-out forwards",
-                        willChange: "transform, opacity",
-                      }
-                    : {
-                        opacity: fading.has(i) ? 0 : 1,
-                        transform: fading.has(i) ? "scale(0.8)" : "scale(1)",
-                        transition:
-                          "opacity 200ms ease-out, transform 200ms ease-out",
-                      }
-                }
-              >
+              <div className="w-14 h-14 bg-white border border-gray-200 rounded-xl shadow-sm flex items-center justify-center text-2xl">
                 {item.emoji}
               </div>
-              <span
-                className="text-[11px] font-medium text-gray-400"
-                style={{
-                  opacity: fading.has(i) ? 0 : 1,
-                  transition: "opacity 200ms ease-out",
-                }}
-              >
+              <span className="text-[11px] font-medium text-gray-400">
                 {item.label}
               </span>
             </div>
