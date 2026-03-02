@@ -2,73 +2,93 @@
 
 import { useEffect, useState } from "react";
 
-const SET_A = ["\u{1F4CA}", "\u{1F4B3}", "\u{1F465}", "\u{1F512}", "\u26A1", "\u{1F4C8}"];
-const SET_B = ["\u{1F504}", "\u{1F3AF}", "\u{1F4E7}", "\u{1F6E1}\uFE0F", "\u{1F48E}", "\u{1F30D}"];
+interface NodeData {
+  emoji: string;
+  label: string;
+}
 
-// 6 nodes arranged in a hex around center (200,200) at radius 140 in a 400x400 box
-// Angles: -90, -30, 30, 90, 150, 210 degrees
-const NODES = [
-  { x: 200, y: 60 },
-  { x: 321, y: 130 },
-  { x: 321, y: 270 },
-  { x: 200, y: 340 },
-  { x: 79, y: 270 },
-  { x: 79, y: 130 },
+const SET_A: NodeData[] = [
+  { emoji: "\u{1F4CA}", label: "Analytics" },
+  { emoji: "\u{1F4B3}", label: "Billing" },
+  { emoji: "\u{1F465}", label: "Teams" },
+  { emoji: "\u{1F512}", label: "Security" },
+  { emoji: "\u26A1", label: "API" },
+  { emoji: "\u{1F4C8}", label: "Growth" },
 ];
 
-const CX = 200;
-const CY = 200;
+const SET_B: NodeData[] = [
+  { emoji: "\u{1F504}", label: "Subscriptions" },
+  { emoji: "\u{1F3AF}", label: "Projects" },
+  { emoji: "\u{1F4E7}", label: "Invoices" },
+  { emoji: "\u{1F6E1}\uFE0F", label: "Auth" },
+  { emoji: "\u{1F48E}", label: "Pro" },
+  { emoji: "\u{1F30D}", label: "Global" },
+];
+
+// 6 nodes in hex around center (280,280) at radius 190 in 560x560 box
+const NODES = [
+  { x: 280, y: 90 },
+  { x: 445, y: 185 },
+  { x: 445, y: 375 },
+  { x: 280, y: 470 },
+  { x: 115, y: 375 },
+  { x: 115, y: 185 },
+];
+
+const CX = 280;
+const CY = 280;
+const LINE_LEN = 191;
 
 export function HubAndSpoke() {
-  const [icons, setIcons] = useState(SET_A);
-  const [started, setStarted] = useState(false);
-  const [revealed, setRevealed] = useState(false);
+  const [items, setItems] = useState(SET_A);
   const [fading, setFading] = useState<Set<number>>(new Set());
 
-  // Entry sequence
+  // Icon cycling: starts after 1.5s, swaps 2 random nodes every 2.5s
   useEffect(() => {
-    const t1 = setTimeout(() => setStarted(true), 100);
-    // Entry ~1.5s + 2s pause before cycling
-    const t2 = setTimeout(() => setRevealed(true), 3600);
+    let intervalId: ReturnType<typeof setInterval>;
+
+    const startDelay = setTimeout(() => {
+      intervalId = setInterval(() => {
+        const idx1 = Math.floor(Math.random() * 6);
+        let idx2 = Math.floor(Math.random() * 5);
+        if (idx2 >= idx1) idx2++;
+
+        // Crossfade out (200ms)
+        setFading(new Set([idx1, idx2]));
+
+        // Swap + crossfade in
+        setTimeout(() => {
+          setItems((prev) => {
+            const next = [...prev];
+            next[idx1] =
+              prev[idx1].emoji === SET_A[idx1].emoji
+                ? SET_B[idx1]
+                : SET_A[idx1];
+            next[idx2] =
+              prev[idx2].emoji === SET_A[idx2].emoji
+                ? SET_B[idx2]
+                : SET_A[idx2];
+            return next;
+          });
+          setFading(new Set());
+        }, 200);
+      }, 2500);
+    }, 1500);
+
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
+      clearTimeout(startDelay);
+      if (intervalId) clearInterval(intervalId);
     };
   }, []);
 
-  // Icon cycling after reveal
-  useEffect(() => {
-    if (!revealed) return;
-
-    const interval = setInterval(() => {
-      const idx1 = Math.floor(Math.random() * 6);
-      let idx2 = Math.floor(Math.random() * 5);
-      if (idx2 >= idx1) idx2++;
-
-      setFading(new Set([idx1, idx2]));
-
-      setTimeout(() => {
-        setIcons((prev) => {
-          const next = [...prev];
-          next[idx1] = prev[idx1] === SET_A[idx1] ? SET_B[idx1] : SET_A[idx1];
-          next[idx2] = prev[idx2] === SET_A[idx2] ? SET_B[idx2] : SET_A[idx2];
-          return next;
-        });
-        setFading(new Set());
-      }, 300);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [revealed]);
-
   return (
     <>
-      {/* Desktop: hub-and-spoke */}
-      <div className="hidden sm:flex justify-center py-6">
-        <div className="relative w-[400px] h-[400px]">
-          {/* SVG lines */}
+      {/* Desktop (md+) — fills parent container */}
+      <div className="hidden md:block">
+        <div className="relative w-full aspect-square">
+          {/* SVG lines — draw in staggered, then pulse */}
           <svg
-            viewBox="0 0 400 400"
+            viewBox="0 0 560 560"
             className="absolute inset-0 w-full h-full"
             fill="none"
           >
@@ -80,18 +100,17 @@ export function HubAndSpoke() {
                 x2={node.x}
                 y2={node.y}
                 stroke="#D1D5DB"
-                strokeWidth={1}
-                strokeDasharray="6 4"
+                strokeWidth={1.5}
+                strokeDasharray={LINE_LEN}
+                strokeDashoffset={LINE_LEN}
                 style={{
-                  opacity: started ? 1 : 0,
-                  transition: "opacity 400ms ease-out",
-                  transitionDelay: revealed ? "0ms" : `${300 + i * 150}ms`,
+                  animation: `hub-line-draw 400ms ease-out ${300 + i * 150}ms forwards, hub-line-pulse 4s ease-in-out ${1500 + i * 667}ms infinite`,
                 }}
               />
             ))}
           </svg>
 
-          {/* Center node — positioned wrapper */}
+          {/* Center node — scale in, then pulse */}
           <div
             className="absolute"
             style={{
@@ -101,91 +120,109 @@ export function HubAndSpoke() {
             }}
           >
             <div
-              className="w-16 h-16 bg-white border-2 border-accent rounded-full shadow-md flex items-center justify-center"
+              className="w-[72px] h-[72px] bg-white border-2 border-[#191C1F] rounded-full flex items-center justify-center"
               style={{
-                opacity: started ? 1 : 0,
-                transition: "opacity 300ms ease-out",
-                animation: started
-                  ? "hub-pulse 3s ease-in-out infinite 2s"
-                  : "none",
+                opacity: 0,
+                transform: "scale(0)",
+                animation:
+                  "hub-center-in 300ms ease-out forwards, hub-pulse 3s ease-in-out 1.5s infinite",
+                boxShadow:
+                  "0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0,0,0,0.04)",
               }}
             >
-              <svg
-                className="w-7 h-7 text-accent"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"
-                />
+              <svg className="w-8 h-8 text-[#191C1F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 12a7 7 0 0 0-14 0" />
+                <path d="M19 8v4h-4" />
+                <path d="M5 12a7 7 0 0 0 14 0" />
+                <path d="M5 16v-4h4" />
               </svg>
             </div>
           </div>
 
-          {/* Feature nodes */}
+          {/* Feature nodes — fade + slide in as each line completes */}
           {NODES.map((node, i) => (
             <div
               key={i}
-              className="absolute w-12 h-12 bg-white border border-gray-200 rounded-xl shadow-sm flex items-center justify-center text-xl"
+              className="absolute flex flex-col items-center gap-1.5"
               style={{
-                left: `${(node.x / 400) * 100}%`,
-                top: `${(node.y / 400) * 100}%`,
+                left: `${(node.x / 560) * 100}%`,
+                top: `${(node.y / 560) * 100}%`,
+                opacity: 0,
                 transform: "translate(-50%, -50%)",
-                opacity: started && !fading.has(i) ? 1 : 0,
-                transition: "opacity 300ms ease-out",
-                transitionDelay:
-                  !revealed ? `${600 + i * 150}ms` : "0ms",
+                animation: `hub-node-in 400ms ease-out ${700 + i * 150}ms forwards`,
               }}
             >
-              {icons[i]}
+              <div
+                className="w-14 h-14 bg-white border border-gray-200 rounded-xl shadow-sm flex items-center justify-center text-2xl"
+                style={{
+                  opacity: fading.has(i) ? 0 : 1,
+                  transition: "opacity 200ms ease-out",
+                }}
+              >
+                {items[i].emoji}
+              </div>
+              <span
+                className="text-[11px] font-medium text-gray-400"
+                style={{
+                  opacity: fading.has(i) ? 0 : 1,
+                  transition: "opacity 200ms ease-out",
+                }}
+              >
+                {items[i].label}
+              </span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Mobile: grid layout */}
-      <div className="flex sm:hidden flex-col items-center py-8">
+      {/* Mobile (< md) — compact grid, same cycling */}
+      <div className="flex md:hidden flex-col items-center py-4">
         <div
-          className="w-14 h-14 bg-white border-2 border-accent rounded-full shadow-md flex items-center justify-center mb-5"
+          className="w-16 h-16 bg-white border-2 border-[#191C1F] rounded-full flex items-center justify-center mb-6"
           style={{
-            opacity: started ? 1 : 0,
-            transition: "opacity 300ms ease-out",
-            animation: started
-              ? "hub-pulse 3s ease-in-out infinite 1s"
-              : "none",
+            opacity: 0,
+            transform: "scale(0)",
+            animation:
+              "hub-center-in 300ms ease-out forwards, hub-pulse 3s ease-in-out 1.5s infinite",
+            boxShadow:
+              "0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0,0,0,0.04)",
           }}
         >
-          <svg
-            className="w-6 h-6 text-accent"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"
-            />
+          <svg className="w-7 h-7 text-[#191C1F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 12a7 7 0 0 0-14 0" />
+            <path d="M19 8v4h-4" />
+            <path d="M5 12a7 7 0 0 0 14 0" />
+            <path d="M5 16v-4h4" />
           </svg>
         </div>
-        <div className="grid grid-cols-3 gap-3">
-          {icons.map((icon, i) => (
+        <div className="grid grid-cols-3 gap-4">
+          {items.map((item, i) => (
             <div
               key={i}
-              className="w-12 h-12 bg-white border border-gray-200 rounded-xl shadow-sm flex items-center justify-center text-xl"
+              className="flex flex-col items-center gap-1.5"
               style={{
-                opacity: started && !fading.has(i) ? 1 : 0,
-                transition: "opacity 300ms ease-out",
-                transitionDelay:
-                  !revealed ? `${300 + i * 100}ms` : "0ms",
+                opacity: 0,
+                animation: `hub-mobile-in 400ms ease-out ${300 + i * 100}ms forwards`,
               }}
             >
-              {icon}
+              <div
+                className="w-14 h-14 bg-white border border-gray-200 rounded-xl shadow-sm flex items-center justify-center text-2xl"
+                style={{
+                  opacity: fading.has(i) ? 0 : 1,
+                  transition: "opacity 200ms ease-out",
+                }}
+              >
+                {item.emoji}
+              </div>
+              <span
+                className="text-[11px] font-medium text-gray-400"
+                style={{
+                  opacity: fading.has(i) ? 0 : 1,
+                  transition: "opacity 200ms ease-out",
+                }}
+              >
+                {item.label}
+              </span>
             </div>
           ))}
         </div>

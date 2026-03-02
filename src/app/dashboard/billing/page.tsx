@@ -108,7 +108,7 @@ export default async function BillingPage() {
             {planConfig.featureLabels.map((label) => (
               <li key={label} className="flex items-center text-sm text-gray-500">
                 <svg
-                  className="mr-2.5 h-4 w-4 text-accent shrink-0"
+                  className="mr-2.5 h-4 w-4 text-gray-400 shrink-0"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

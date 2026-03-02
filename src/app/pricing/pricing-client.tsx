@@ -117,31 +117,6 @@ export function PricingClient({
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Nav */}
-      <nav className="flex items-center justify-between px-6 py-5 max-w-6xl mx-auto">
-        <Link href="/" className="text-xl font-semibold text-[#191C1F] tracking-tight">
-          SubTrack
-        </Link>
-        <div className="flex items-center gap-3">
-          {user ? (
-            <Link
-              href="/dashboard"
-              className="px-5 py-2 text-sm font-medium text-[#191C1F] border border-gray-200 rounded-full hover:bg-gray-50 transition-colors duration-150"
-            >
-              Dashboard
-            </Link>
-          ) : (
-            <Link
-              href="/auth/signin"
-              className="px-5 py-2 text-sm font-medium text-[#191C1F] border border-gray-200 rounded-full hover:bg-gray-50 transition-colors duration-150"
-            >
-              Sign in
-            </Link>
-          )}
-        </div>
-      </nav>
-
       <main className="max-w-6xl mx-auto px-6 py-16">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-semibold text-[#191C1F] tracking-tight">
@@ -192,7 +167,7 @@ export function PricingClient({
                 key={plan.id}
                 className={`relative rounded-xl p-7 flex flex-col ${
                   isProCard
-                    ? "border-2 border-accent shadow-sm"
+                    ? "border-2 border-[#191C1F] shadow-sm"
                     : "border border-gray-200"
                 }`}
               >
@@ -259,11 +234,7 @@ export function PricingClient({
                         : (window.location.href = "/auth/signin")
                     }
                     disabled={loading === plan.id}
-                    className={`w-full text-center py-2.5 px-4 rounded-full font-medium text-sm transition-colors duration-150 mb-6 disabled:opacity-50 ${
-                      isProCard
-                        ? "bg-accent text-white hover:bg-[#0555c4]"
-                        : "bg-[#191C1F] text-white hover:bg-[#2a2d31]"
-                    }`}
+                    className="w-full text-center py-2.5 px-4 rounded-full font-medium text-sm transition-colors duration-150 mb-6 disabled:opacity-50 bg-[#191C1F] text-white hover:bg-[#2a2d31]"
                   >
                     {loading === plan.id ? "Redirecting..." : "Subscribe"}
                   </button>
@@ -276,7 +247,7 @@ export function PricingClient({
                       className="flex items-start gap-2.5 text-sm text-gray-500"
                     >
                       <svg
-                        className="w-4 h-4 mt-0.5 text-accent shrink-0"
+                        className="w-4 h-4 mt-0.5 text-gray-400 shrink-0"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth={2}
@@ -297,6 +268,5 @@ export function PricingClient({
           })}
         </div>
       </main>
-    </div>
   );
 }
