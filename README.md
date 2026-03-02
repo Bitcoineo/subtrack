@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SubTrack
 
-## Getting Started
+SaaS subscription dashboard where users sign up, choose a plan (Free / Pro / Enterprise), manage billing through Stripe, and track projects with plan-based feature gating.
 
-First, run the development server:
+## Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript (strict mode)
+- **Database**: Drizzle ORM + Turso (LibSQL)
+- **Auth**: Auth.js v5 (Google OAuth + credentials)
+- **Payments**: Stripe Subscriptions + Customer Portal
+- **Styling**: Tailwind CSS
+
+## Features
+
+- **Authentication**: Google OAuth and email/password sign-up/sign-in
+- **Subscription plans**: Free (3 projects), Pro ($19/mo), Enterprise ($49/mo) with monthly/yearly billing
+- **Stripe integration**: Checkout sessions, webhook handling, customer portal for self-serve billing management
+- **Project management**: CRUD with plan-based limits (free users capped at 3 projects)
+- **Dashboard**: Plan overview, project stats, billing details, and subscription status
+- **Feature gating**: `canAccess()` helper enforces plan limits server-side
+
+## Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Install dependencies
+pnpm install
+
+# Copy environment variables
+cp .env.example .env.local
+# Fill in all values (see Environment Variables below)
+
+# Generate and run database migrations
+npx drizzle-kit generate
+npx tsx src/db/migrate.ts
+
+# Seed test data (admin@subtrack.dev / password123)
+npx tsx src/db/seed.ts
+
+# Start development server
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Variable | Description |
+|----------|-------------|
+| `AUTH_SECRET` | NextAuth.js secret (generate with `openssl rand -base64 32`) |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
+| `NEXT_PUBLIC_BASE_URL` | App URL (e.g. `http://localhost:3000`) |
+| `DATABASE_URL` | Turso database URL |
+| `DATABASE_AUTH_TOKEN` | Turso auth token |
+| `STRIPE_SECRET_KEY` | Stripe secret key |
+| `STRIPE_PUBLISHABLE_KEY` | Stripe publishable key |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret |
+| `STRIPE_PRO_MONTHLY_PRICE_ID` | Stripe price ID for Pro monthly |
+| `STRIPE_PRO_YEARLY_PRICE_ID` | Stripe price ID for Pro yearly |
+| `STRIPE_ENTERPRISE_MONTHLY_PRICE_ID` | Stripe price ID for Enterprise monthly |
+| `STRIPE_ENTERPRISE_YEARLY_PRICE_ID` | Stripe price ID for Enterprise yearly |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Commands
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start dev server |
+| `pnpm build` | Production build (includes type checking) |
+| `pnpm start` | Start production server |
+| `npx drizzle-kit generate` | Generate SQL migrations |
+| `npx drizzle-kit studio` | Open Drizzle Studio |
+| `npx tsx src/db/migrate.ts` | Run migrations |
+| `npx tsx src/db/seed.ts` | Seed test data |
