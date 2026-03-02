@@ -23,12 +23,12 @@ export default async function Home() {
             {/* Left: text */}
             <div className="md:w-1/2 text-center md:text-left">
               <h1 className="text-5xl sm:text-6xl font-semibold text-[#191C1F] tracking-tight leading-[1.1]">
-                Subscriptions,
+                One dashboard.
                 <br />
-                simplified.
+                Every subscription.
               </h1>
               <p className="mt-5 text-lg sm:text-xl text-gray-500 max-w-lg leading-relaxed">
-                One dashboard to track every plan, payment, and project.
+                Know who&apos;s paying, who&apos;s not, and what to do about it.
               </p>
               <div className="mt-8 flex items-center justify-center md:justify-start gap-3">
                 <Link
@@ -64,11 +64,11 @@ export default async function Home() {
               </svg>
             </div>
             <h3 className="text-base font-semibold text-[#191C1F] mb-2">
-              Project Management
+              Ship more. Track less.
             </h3>
             <p className="text-sm text-gray-500 leading-relaxed">
-              Organize projects with plan-based limits. Free users get 3,
-              paid plans unlock unlimited.
+              Free accounts get 3 projects. Paid accounts get unlimited.
+              No setup, no config — it just works.
             </p>
           </div>
           <div className="bg-[#F7F7F7] rounded-xl p-7 border border-transparent hover:border-[#191C1F] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200">
@@ -78,11 +78,11 @@ export default async function Home() {
               </svg>
             </div>
             <h3 className="text-base font-semibold text-[#191C1F] mb-2">
-              Subscription Billing
+              Billing that runs itself.
             </h3>
             <p className="text-sm text-gray-500 leading-relaxed">
-              Stripe-powered billing with monthly and yearly plans. Manage
-              everything through a self-serve portal.
+              Stripe handles the money. You pick monthly or yearly. Your
+              customers manage their own invoices through a self-serve portal.
             </p>
           </div>
           <div className="bg-[#F7F7F7] rounded-xl p-7 border border-transparent hover:border-[#191C1F] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200">
@@ -92,11 +92,11 @@ export default async function Home() {
               </svg>
             </div>
             <h3 className="text-base font-semibold text-[#191C1F] mb-2">
-              Usage Dashboard
+              See everything. Guess nothing.
             </h3>
             <p className="text-sm text-gray-500 leading-relaxed">
-              Real-time overview of your plan, project usage, and billing
-              status — everything at a glance.
+              Plan, usage, billing status, next payment date — one screen,
+              zero digging.
             </p>
           </div>
         </div>
@@ -105,17 +105,14 @@ export default async function Home() {
       {/* Bottom CTA */}
       <section className="bg-[#0A0A0A] py-20 text-center">
         <h2 className="text-2xl font-semibold text-white tracking-tight">
-          Start building for free
+          Free to start. Upgrade when it pays for itself.
         </h2>
-        <p className="mt-3 text-gray-400">
-          No credit card required. Upgrade when you&apos;re ready.
-        </p>
         <div className="mt-6">
           <Link
             href="/auth/signup"
             className="inline-block px-7 py-3 text-sm font-medium text-white border border-white/20 rounded-full hover:bg-white/10 transition-colors duration-150"
           >
-            Get started
+            Create your account
           </Link>
         </div>
       </section>

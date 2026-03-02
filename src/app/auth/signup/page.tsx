@@ -52,7 +52,7 @@ export default function SignUpPage() {
       <div className="flex-1 flex items-center justify-center px-4">
         <div className="w-full max-w-sm">
           <p className="text-center text-sm text-gray-500 mb-8">
-            Create your account
+            Start free. No credit card.
           </p>
 
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
@@ -129,7 +129,7 @@ export default function SignUpPage() {
                 disabled={loading}
                 className="w-full py-2.5 px-4 rounded-full bg-[#191C1F] text-white text-sm font-medium hover:bg-[#2a2d31] transition-colors duration-150 disabled:opacity-50"
               >
-                {loading ? "Creating account..." : "Sign Up"}
+                {loading ? "Creating account..." : "Create account"}
               </button>
             </form>
           </div>

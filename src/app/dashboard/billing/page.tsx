@@ -36,14 +36,13 @@ export default async function BillingPage() {
   return (
     <div>
       <h1 className="text-2xl font-semibold text-[#191C1F] tracking-tight mb-6">
-        Billing
+        Plan & billing
       </h1>
 
       {isPastDue && (
         <div className="mb-6 rounded-xl bg-red-50 px-5 py-4">
           <p className="text-sm font-medium text-[#E5484D]">
-            Payment failed — please update your payment method to keep your
-            subscription active.
+            Your last payment didn&apos;t go through. Update your card to keep your access.
           </p>
         </div>
       )}
@@ -66,7 +65,7 @@ export default async function BillingPage() {
             )}
             {isFree && (
               <p className="mt-1 text-sm text-gray-500">
-                Free forever — no credit card required
+                Free. No card needed. No tricks.
               </p>
             )}
           </div>
@@ -102,7 +101,7 @@ export default async function BillingPage() {
 
         <div className="mt-6 pt-6 border-t border-gray-100">
           <h3 className="text-sm font-medium text-[#191C1F] mb-3">
-            Plan features
+            What you get
           </h3>
           <ul className="space-y-2.5">
             {planConfig.featureLabels.map((label) => (
@@ -132,7 +131,7 @@ export default async function BillingPage() {
               href="/pricing"
               className="inline-flex items-center px-6 py-2.5 bg-[#191C1F] text-white text-sm font-medium rounded-full hover:bg-[#2a2d31] transition-colors duration-150"
             >
-              Upgrade your plan
+              See paid plans
             </Link>
           ) : (
             <ManageSubscriptionButton />

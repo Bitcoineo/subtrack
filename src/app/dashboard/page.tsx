@@ -92,19 +92,19 @@ export default async function DashboardPage() {
           className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow duration-150"
         >
           <h3 className="text-base font-semibold text-[#191C1F]">
-            Manage Projects
+            Your projects
           </h3>
           <p className="mt-1 text-sm text-gray-500">
-            Create, view, and delete your projects
+            Build something.
           </p>
         </Link>
         <Link
           href="/dashboard/billing"
           className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow duration-150"
         >
-          <h3 className="text-base font-semibold text-[#191C1F]">Billing</h3>
+          <h3 className="text-base font-semibold text-[#191C1F]">Plan & billing</h3>
           <p className="mt-1 text-sm text-gray-500">
-            View plan details and manage your subscription
+            See your plan. Change it if you want.
           </p>
         </Link>
       </div>

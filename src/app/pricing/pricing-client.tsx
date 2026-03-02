@@ -20,22 +20,22 @@ const plans = [
   {
     id: "free" as const,
     name: "Free",
-    description: "Get started with the basics",
+    description: "For solo projects and testing.",
     monthlyPrice: 0,
     yearlyPrice: 0,
-    features: ["Up to 3 projects", "Basic analytics", "Community support"],
+    features: ["Up to 3 projects", "Basic usage stats", "Community support"],
     popular: false,
   },
   {
     id: "pro" as const,
     name: "Pro",
-    description: "Everything you need to grow",
+    description: "For teams shipping real products.",
     monthlyPrice: 1900,
     yearlyPrice: 19000,
     features: [
       "Unlimited projects",
-      "Full analytics",
-      "Priority support",
+      "Full analytics dashboard",
+      "Priority email support",
       "Everything in Free",
     ],
     popular: true,
@@ -43,16 +43,16 @@ const plans = [
   {
     id: "enterprise" as const,
     name: "Enterprise",
-    description: "For teams that need it all",
+    description: "For companies that need control.",
     monthlyPrice: 4900,
     yearlyPrice: 49000,
     features: [
       "Unlimited projects",
-      "Full analytics",
-      "Priority support",
-      "Team members",
-      "API access",
-      "Custom branding",
+      "Full analytics dashboard",
+      "Dedicated support",
+      "Invite your whole team",
+      "Full API access",
+      "White-label branding",
       "Everything in Pro",
     ],
     popular: false,
@@ -120,10 +120,10 @@ export function PricingClient({
       <main className="max-w-6xl mx-auto px-6 py-16">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-semibold text-[#191C1F] tracking-tight">
-            Simple, transparent pricing
+            Three plans. No surprises.
           </h1>
           <p className="mt-4 text-gray-500 max-w-lg mx-auto">
-            Choose the plan that fits your needs. Upgrade or downgrade at any time.
+            Switch plans in two clicks. Cancel anytime. We don&apos;t hide fees.
           </p>
         </div>
 
@@ -236,7 +236,7 @@ export function PricingClient({
                     disabled={loading === plan.id}
                     className="w-full text-center py-2.5 px-4 rounded-full font-medium text-sm transition-colors duration-150 mb-6 disabled:opacity-50 bg-[#191C1F] text-white hover:bg-[#2a2d31]"
                   >
-                    {loading === plan.id ? "Redirecting..." : "Subscribe"}
+                    {loading === plan.id ? "Redirecting..." : `Start ${plan.name}`}
                   </button>
                 )}
 

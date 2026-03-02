@@ -41,7 +41,7 @@ export default function SignInPage() {
       <div className="flex-1 flex items-center justify-center px-4">
         <div className="w-full max-w-sm">
           <p className="text-center text-sm text-gray-500 mb-8">
-            Sign in to your account
+            Welcome back.
           </p>
 
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
@@ -104,13 +104,13 @@ export default function SignInPage() {
                 disabled={loading}
                 className="w-full py-2.5 px-4 rounded-full bg-[#191C1F] text-white text-sm font-medium hover:bg-[#2a2d31] transition-colors duration-150 disabled:opacity-50"
               >
-                {loading ? "Signing in..." : "Sign In"}
+                {loading ? "Signing in..." : "Continue"}
               </button>
             </form>
           </div>
 
           <p className="text-center text-sm text-gray-500 mt-6">
-            Don&apos;t have an account?{" "}
+            No account yet?{" "}
             <Link href="/auth/signup" className="text-accent font-medium hover:text-[#0555c4]">
               Sign up
             </Link>
