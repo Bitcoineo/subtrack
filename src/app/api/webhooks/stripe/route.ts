@@ -36,8 +36,7 @@ async function handleCheckoutCompleted(
   const item = subscription.items.data[0];
   if (!item) return;
 
-  const priceId = item.price.id;
-  const planInfo = getPlanByPriceId(priceId);
+  const planInfo = getPlanByPriceId(item.price.id);
   if (!planInfo) return;
 
   await db
@@ -55,14 +54,16 @@ async function handleCheckoutCompleted(
     .where(eq(users.id, userId));
 }
 
-async function handleSubscriptionUpdated(
+async function handleSubscriptionChange(
   subscription: Stripe.Subscription
 ) {
+  const customerId = subscription.customer as string;
+  if (!customerId) return;
+
   const item = subscription.items.data[0];
   if (!item) return;
 
-  const priceId = item.price.id;
-  const planInfo = getPlanByPriceId(priceId);
+  const planInfo = getPlanByPriceId(item.price.id);
   if (!planInfo) return;
 
   await db
@@ -71,16 +72,20 @@ async function handleSubscriptionUpdated(
       plan: planInfo.planId,
       planPeriod: planInfo.period,
       subscriptionStatus: mapStripeStatus(subscription.status),
+      stripeSubscriptionId: subscription.id,
       currentPeriodEnd: new Date(
         item.current_period_end * 1000
       ).toISOString(),
     })
-    .where(eq(users.stripeSubscriptionId, subscription.id));
+    .where(eq(users.stripeCustomerId, customerId));
 }
 
 async function handleSubscriptionDeleted(
   subscription: Stripe.Subscription
 ) {
+  const customerId = subscription.customer as string;
+  if (!customerId) return;
+
   await db
     .update(users)
     .set({
@@ -90,7 +95,7 @@ async function handleSubscriptionDeleted(
       stripeSubscriptionId: null,
       currentPeriodEnd: null,
     })
-    .where(eq(users.stripeSubscriptionId, subscription.id));
+    .where(eq(users.stripeCustomerId, customerId));
 }
 
 async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
@@ -145,8 +150,9 @@ export async function POST(request: Request) {
         event.data.object as Stripe.Checkout.Session
       );
       break;
+    case "customer.subscription.created":
     case "customer.subscription.updated":
-      await handleSubscriptionUpdated(
+      await handleSubscriptionChange(
         event.data.object as Stripe.Subscription
       );
       break;
