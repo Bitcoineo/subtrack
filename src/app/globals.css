@@ -31,13 +31,33 @@ body {
   50% { transform: scale(1.05); }
 }
 
+@keyframes hub-center-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 @keyframes hub-line-draw {
   to { stroke-dashoffset: 0; }
 }
 
-@keyframes hub-line-pulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
+@keyframes hub-line-flow {
+  from { stroke-dashoffset: 20; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes hub-line-fade-in {
+  from { opacity: 0; }
+  to { opacity: 0.2; }
+}
+
+@keyframes hub-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes hub-sonar {
+  0% { transform: scale(1); opacity: 0.25; }
+  100% { transform: scale(2.5); opacity: 0; }
 }
 
 @keyframes hub-node-in {
@@ -45,7 +65,28 @@ body {
   to { opacity: 1; transform: translate(-50%, -50%); }
 }
 
+@keyframes hub-node-bounce {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes hub-glow {
+  0%, 100% { opacity: 0.03; }
+  50% { opacity: 0.07; }
+}
+
 @keyframes hub-mobile-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Reduced motion: collapse all hub animations */
+@media (prefers-reduced-motion: reduce) {
+  .hub-container,
+  .hub-container * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
