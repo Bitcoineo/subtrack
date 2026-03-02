@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { eq } from "drizzle-orm";
@@ -6,6 +7,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { getUserProjects } from "@/lib/projects";
 import { PLANS, type PlanId } from "@/lib/plans";
+import { CheckoutSuccessBanner } from "./checkout-success-banner";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -32,6 +34,9 @@ export default async function DashboardPage() {
 
   return (
     <div>
+      <Suspense fallback={null}>
+        <CheckoutSuccessBanner />
+      </Suspense>
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900">
           Welcome, {dbUser.name ?? "there"}
