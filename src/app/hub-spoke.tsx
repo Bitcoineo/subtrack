@@ -130,11 +130,10 @@ export function HubAndSpoke() {
                   "0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0,0,0,0.04)",
               }}
             >
-              <svg className="w-8 h-8 text-[#191C1F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M19 12a7 7 0 0 0-14 0" />
-                <path d="M19 8v4h-4" />
-                <path d="M5 12a7 7 0 0 0 14 0" />
-                <path d="M5 16v-4h4" />
+              <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="14" width="20" height="8" rx="2.5" fill="#0666EB" />
+                <rect x="4" y="8" width="16" height="8" rx="2.5" fill="#0666EB" opacity="0.45" />
+                <rect x="6" y="2" width="12" height="8" rx="2" fill="#0666EB" opacity="0.2" />
               </svg>
             </div>
           </div>
@@ -188,11 +187,10 @@ export function HubAndSpoke() {
               "0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0,0,0,0.04)",
           }}
         >
-          <svg className="w-7 h-7 text-[#191C1F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 12a7 7 0 0 0-14 0" />
-            <path d="M19 8v4h-4" />
-            <path d="M5 12a7 7 0 0 0 14 0" />
-            <path d="M5 16v-4h4" />
+          <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="14" width="20" height="8" rx="2.5" fill="#0666EB" />
+            <rect x="4" y="8" width="16" height="8" rx="2.5" fill="#0666EB" opacity="0.45" />
+            <rect x="6" y="2" width="12" height="8" rx="2" fill="#0666EB" opacity="0.2" />
           </svg>
         </div>
         <div className="grid grid-cols-3 gap-4">
