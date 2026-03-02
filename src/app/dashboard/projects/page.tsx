@@ -25,7 +25,7 @@ export default async function ProjectsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Projects</h1>
+      <h1 className="text-2xl font-semibold text-[#191C1F] tracking-tight mb-6">Projects</h1>
       <ProjectsClient
         initialProjects={projects}
         canCreate={access.allowed}

@@ -1,17 +1,12 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth, signOut } from "@/auth";
+import { SidebarNav } from "./sidebar-nav";
 
-const navLinks = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/dashboard/projects", label: "Projects" },
-  { href: "/dashboard/billing", label: "Billing" },
-];
-
-const planColors: Record<string, string> = {
-  free: "bg-green-100 text-green-800",
-  pro: "bg-blue-100 text-blue-800",
-  enterprise: "bg-purple-100 text-purple-800",
+const planBadge: Record<string, string> = {
+  free: "bg-gray-100 text-gray-600",
+  pro: "bg-blue-50 text-[#0666EB]",
+  enterprise: "bg-purple-50 text-purple-600",
 };
 
 export default async function DashboardLayout({
@@ -25,57 +20,62 @@ export default async function DashboardLayout({
   }
 
   const plan = session.user.plan ?? "free";
-  const colorClass = planColors[plan] ?? planColors.free;
+  const badge = planBadge[plan] ?? planBadge.free;
+  const userName = session.user.name ?? session.user.email ?? "User";
+  const initial = userName.charAt(0).toUpperCase();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center gap-8">
-              <Link href="/dashboard" className="text-xl font-bold text-gray-900">
-                SubTrack
-              </Link>
-              <div className="flex gap-1">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
+    <div className="min-h-screen flex bg-[#F7F7F7]">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white flex flex-col shrink-0 sticky top-0 h-screen">
+        {/* Logo */}
+        <div className="px-6 py-6">
+          <Link href="/dashboard" className="text-xl font-semibold text-[#191C1F] tracking-tight">
+            SubTrack
+          </Link>
+        </div>
+
+        {/* Nav */}
+        <nav className="flex-1 px-3">
+          <SidebarNav />
+        </nav>
+
+        {/* User */}
+        <div className="px-4 py-5 border-t border-gray-100">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-[#191C1F] text-white text-sm font-medium flex items-center justify-center shrink-0">
+              {initial}
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-700">
-                {session.user.name ?? session.user.email}
-              </span>
-              <span
-                className={`px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${colorClass}`}
-              >
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium text-[#191C1F] truncate">
+                {userName}
+              </p>
+              <span className={`inline-block mt-0.5 px-2 py-0.5 text-xs font-medium rounded-full capitalize ${badge}`}>
                 {plan}
               </span>
-              <form
-                action={async () => {
-                  "use server";
-                  await signOut({ redirectTo: "/" });
-                }}
-              >
-                <button
-                  type="submit"
-                  className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
-                >
-                  Sign Out
-                </button>
-              </form>
             </div>
           </div>
+          <form
+            action={async () => {
+              "use server";
+              await signOut({ redirectTo: "/" });
+            }}
+          >
+            <button
+              type="submit"
+              className="mt-3 w-full text-left text-sm text-gray-400 hover:text-gray-600 transition-colors duration-150"
+            >
+              Sign out
+            </button>
+          </form>
         </div>
-      </nav>
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {children}
+      </aside>
+
+      {/* Main content */}
+      <main className="flex-1 p-8 overflow-y-auto">
+        <div className="max-w-5xl">
+          {children}
+        </div>
       </main>
     </div>
   );

@@ -26,27 +26,36 @@ export default async function BillingPage() {
   const isFree = plan === "free";
   const isPastDue = dbUser.subscriptionStatus === "past_due";
 
+  const statusColors: Record<string, string> = {
+    active: "bg-green-50 text-[#00B85E]",
+    past_due: "bg-red-50 text-[#E5484D]",
+    canceled: "bg-gray-100 text-gray-500",
+    incomplete: "bg-gray-100 text-gray-500",
+  };
+
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Billing</h1>
+      <h1 className="text-2xl font-semibold text-[#191C1F] tracking-tight mb-6">
+        Billing
+      </h1>
 
       {isPastDue && (
-        <div className="mb-6 rounded-lg bg-red-50 border border-red-200 p-4">
-          <p className="text-sm font-medium text-red-800">
+        <div className="mb-6 rounded-xl bg-red-50 px-5 py-4">
+          <p className="text-sm font-medium text-[#E5484D]">
             Payment failed — please update your payment method to keep your
             subscription active.
           </p>
         </div>
       )}
 
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-white rounded-xl shadow-sm p-7">
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-lg font-semibold text-[#191C1F]">
               {planConfig.name} Plan
             </h2>
             {!isFree && (
-              <p className="mt-1 text-sm text-gray-600">
+              <p className="mt-1 text-sm text-gray-500">
                 {formatPrice(
                   dbUser.planPeriod === "yearly"
                     ? planConfig.yearlyPrice
@@ -56,19 +65,15 @@ export default async function BillingPage() {
               </p>
             )}
             {isFree && (
-              <p className="mt-1 text-sm text-gray-600">
+              <p className="mt-1 text-sm text-gray-500">
                 Free forever — no credit card required
               </p>
             )}
           </div>
           {dbUser.subscriptionStatus && (
             <span
-              className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                dbUser.subscriptionStatus === "active"
-                  ? "bg-green-100 text-green-800"
-                  : dbUser.subscriptionStatus === "past_due"
-                    ? "bg-red-100 text-red-800"
-                    : "bg-gray-100 text-gray-800"
+              className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${
+                statusColors[dbUser.subscriptionStatus] ?? statusColors.incomplete
               }`}
             >
               {dbUser.subscriptionStatus}
@@ -77,17 +82,17 @@ export default async function BillingPage() {
         </div>
 
         {!isFree && (
-          <div className="mt-4 space-y-2 text-sm text-gray-600">
+          <div className="mt-5 space-y-2 text-sm text-gray-500">
             <p>
               Billing period:{" "}
-              <span className="font-medium capitalize">
+              <span className="font-medium text-[#191C1F] capitalize">
                 {dbUser.planPeriod}
               </span>
             </p>
             {dbUser.currentPeriodEnd && (
               <p>
                 Next billing date:{" "}
-                <span className="font-medium">
+                <span className="font-medium text-[#191C1F]">
                   {new Date(dbUser.currentPeriodEnd).toLocaleDateString()}
                 </span>
               </p>
@@ -95,15 +100,15 @@ export default async function BillingPage() {
           </div>
         )}
 
-        <div className="mt-6 border-t border-gray-200 pt-6">
-          <h3 className="text-sm font-medium text-gray-900 mb-3">
+        <div className="mt-6 pt-6 border-t border-gray-100">
+          <h3 className="text-sm font-medium text-[#191C1F] mb-3">
             Plan features
           </h3>
-          <ul className="space-y-2">
+          <ul className="space-y-2.5">
             {planConfig.featureLabels.map((label) => (
-              <li key={label} className="flex items-center text-sm text-gray-600">
+              <li key={label} className="flex items-center text-sm text-gray-500">
                 <svg
-                  className="mr-2 h-4 w-4 text-green-500 flex-shrink-0"
+                  className="mr-2.5 h-4 w-4 text-accent shrink-0"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -112,7 +117,7 @@ export default async function BillingPage() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
+                    d="M4.5 12.75l6 6 9-13.5"
                   />
                 </svg>
                 {label}
@@ -125,7 +130,7 @@ export default async function BillingPage() {
           {isFree ? (
             <Link
               href="/pricing"
-              className="inline-flex items-center px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
+              className="inline-flex items-center px-6 py-2.5 bg-[#191C1F] text-white text-sm font-medium rounded-full hover:bg-[#2a2d31] transition-colors duration-150"
             >
               Upgrade your plan
             </Link>

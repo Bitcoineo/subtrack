@@ -30,66 +30,68 @@ export default async function DashboardPage() {
   const limitLabel =
     planConfig.projectLimit !== null
       ? `${planConfig.projectLimit}`
-      : "unlimited";
+      : "Unlimited";
 
   return (
     <div>
       <Suspense fallback={null}>
         <CheckoutSuccessBanner />
       </Suspense>
+
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">
-          Welcome, {dbUser.name ?? "there"}
+        <h1 className="text-2xl font-semibold text-[#191C1F] tracking-tight">
+          Welcome back, {dbUser.name ?? "there"}
         </h1>
-        <div className="mt-2 flex items-center gap-3">
-          <span className="text-sm text-gray-600">
-            {planConfig.name} plan
-          </span>
+        <div className="mt-1.5 flex items-center gap-3 text-sm text-gray-500">
+          <span>{planConfig.name} plan</span>
           {dbUser.subscriptionStatus && (
-            <span className="text-sm text-gray-500">
-              &middot; {dbUser.subscriptionStatus}
-            </span>
+            <>
+              <span className="text-gray-300">/</span>
+              <span className="capitalize">{dbUser.subscriptionStatus}</span>
+            </>
           )}
           {dbUser.currentPeriodEnd && (
-            <span className="text-sm text-gray-500">
-              &middot; Next billing:{" "}
-              {new Date(dbUser.currentPeriodEnd).toLocaleDateString()}
-            </span>
+            <>
+              <span className="text-gray-300">/</span>
+              <span>
+                Next billing{" "}
+                {new Date(dbUser.currentPeriodEnd).toLocaleDateString()}
+              </span>
+            </>
           )}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <p className="text-sm font-medium text-gray-500">Projects</p>
-          <p className="mt-2 text-3xl font-bold text-gray-900">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="bg-white rounded-xl shadow-sm p-6">
+          <p className="text-sm text-gray-500">Projects</p>
+          <p className="mt-2 text-3xl font-semibold text-[#191C1F]">
             {projectCount}
-            <span className="text-lg font-normal text-gray-500">
-              {" "}
-              / {limitLabel}
+            <span className="text-base font-normal text-gray-400">
+              {" "}/ {limitLabel}
             </span>
           </p>
         </div>
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <p className="text-sm font-medium text-gray-500">Plan</p>
-          <p className="mt-2 text-3xl font-bold text-gray-900 capitalize">
+        <div className="bg-white rounded-xl shadow-sm p-6">
+          <p className="text-sm text-gray-500">Plan</p>
+          <p className="mt-2 text-3xl font-semibold text-[#191C1F] capitalize">
             {plan}
           </p>
         </div>
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <p className="text-sm font-medium text-gray-500">Billing Period</p>
-          <p className="mt-2 text-3xl font-bold text-gray-900 capitalize">
-            {dbUser.planPeriod ?? "—"}
+        <div className="bg-white rounded-xl shadow-sm p-6">
+          <p className="text-sm text-gray-500">Billing Period</p>
+          <p className="mt-2 text-3xl font-semibold text-[#191C1F] capitalize">
+            {dbUser.planPeriod ?? "\u2014"}
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Link
           href="/dashboard/projects"
-          className="block bg-white rounded-lg border border-gray-200 p-6 hover:border-gray-400 transition-colors"
+          className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow duration-150"
         >
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-base font-semibold text-[#191C1F]">
             Manage Projects
           </h3>
           <p className="mt-1 text-sm text-gray-500">
@@ -98,9 +100,9 @@ export default async function DashboardPage() {
         </Link>
         <Link
           href="/dashboard/billing"
-          className="block bg-white rounded-lg border border-gray-200 p-6 hover:border-gray-400 transition-colors"
+          className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow duration-150"
         >
-          <h3 className="text-lg font-semibold text-gray-900">Billing</h3>
+          <h3 className="text-base font-semibold text-[#191C1F]">Billing</h3>
           <p className="mt-1 text-sm text-gray-500">
             View plan details and manage your subscription
           </p>

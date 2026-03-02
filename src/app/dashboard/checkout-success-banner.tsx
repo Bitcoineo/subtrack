@@ -23,12 +23,12 @@ export function CheckoutSuccessBanner() {
   return (
     <div
       onClick={() => setVisible(false)}
-      className="mb-6 flex items-center justify-between rounded-lg border border-green-200 bg-green-50 px-4 py-3 cursor-pointer transition-opacity"
+      className="mb-6 flex items-center justify-between rounded-xl bg-green-50 px-5 py-3.5 cursor-pointer transition-opacity duration-150"
     >
-      <p className="text-sm font-medium text-green-800">
+      <p className="text-sm font-medium text-[#00B85E]">
         Welcome to your new plan! Your subscription is now active.
       </p>
-      <span className="text-xs text-green-600 ml-4 shrink-0">Dismiss</span>
+      <span className="text-xs text-green-400 ml-4 shrink-0">Dismiss</span>
     </div>
   );
 }
