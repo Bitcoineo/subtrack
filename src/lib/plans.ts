@@ -1,4 +1,10 @@
 export type PlanId = "free" | "pro" | "enterprise";
+
+export const PLAN_BADGE_COLORS: Record<PlanId, string> = {
+  free: "bg-gray-100 text-gray-600",
+  pro: "bg-blue-50 text-[#0666EB]",
+  enterprise: "bg-purple-50 text-purple-600",
+};
 export type BillingPeriod = "monthly" | "yearly";
 export type Feature =
   | "projects"

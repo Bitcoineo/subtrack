@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { SidebarNav } from "./sidebar-nav";
+import { SidebarUser } from "./sidebar-user";
 
 interface MobileSidebarProps {
   userName: string;
   initial: string;
   plan: string;
   badge: string;
+  signOutAction: () => Promise<void>;
 }
 
 export function MobileSidebarToggle({
@@ -16,8 +19,14 @@ export function MobileSidebarToggle({
   plan,
   badge,
   signOutAction,
-}: MobileSidebarProps & { signOutAction: () => Promise<void> }) {
+}: MobileSidebarProps) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Close sidebar on route change
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <>
@@ -40,14 +49,11 @@ export function MobileSidebarToggle({
       {/* Backdrop + sliding sidebar */}
       {open && (
         <div className="md:hidden fixed inset-0 z-50">
-          {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/30"
             onClick={() => setOpen(false)}
           />
-          {/* Sidebar panel */}
           <aside className="absolute left-0 top-0 bottom-0 w-64 bg-white flex flex-col shadow-xl">
-            {/* Header */}
             <div className="flex items-center justify-between px-5 py-5">
               <span className="text-xl font-semibold text-[#191C1F] tracking-tight">
                 SubTrack
@@ -63,35 +69,17 @@ export function MobileSidebarToggle({
               </button>
             </div>
 
-            {/* Nav links */}
-            <nav className="flex-1 px-3" onClick={() => setOpen(false)}>
+            <nav className="flex-1 px-3">
               <SidebarNav />
             </nav>
 
-            {/* User section */}
-            <div className="px-4 py-5 border-t border-gray-100">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#191C1F] text-white text-sm font-medium flex items-center justify-center shrink-0">
-                  {initial}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-[#191C1F] truncate">
-                    {userName}
-                  </p>
-                  <span className={`inline-block mt-0.5 px-2 py-0.5 text-xs font-medium rounded-full capitalize ${badge}`}>
-                    {plan}
-                  </span>
-                </div>
-              </div>
-              <form action={signOutAction}>
-                <button
-                  type="submit"
-                  className="mt-3 w-full text-left text-sm text-gray-400 hover:text-gray-600 transition-colors duration-150 py-1"
-                >
-                  Sign out
-                </button>
-              </form>
-            </div>
+            <SidebarUser
+              initial={initial}
+              userName={userName}
+              plan={plan}
+              badge={badge}
+              signOutAction={signOutAction}
+            />
           </aside>
         </div>
       )}

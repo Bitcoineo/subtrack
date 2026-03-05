@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { PLAN_BADGE_COLORS, type PlanId } from "@/lib/plans";
 
 type BillingPeriod = "monthly" | "yearly";
 
@@ -59,11 +60,6 @@ const plans = [
   },
 ];
 
-const badgeColors: Record<string, string> = {
-  free: "bg-gray-100 text-gray-600",
-  pro: "bg-blue-50 text-accent",
-  enterprise: "bg-purple-50 text-purple-600",
-};
 
 function formatPrice(cents: number): string {
   return cents === 0 ? "Free" : `$${(cents / 100).toFixed(0)}`;
@@ -181,7 +177,7 @@ export function PricingClient({
 
                 {isCurrent && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className={`text-xs font-medium px-3 py-1 rounded-full ${badgeColors[plan.id]}`}>
+                    <span className={`text-xs font-medium px-3 py-1 rounded-full ${PLAN_BADGE_COLORS[plan.id as PlanId]}`}>
                       Current Plan
                     </span>
                   </div>
