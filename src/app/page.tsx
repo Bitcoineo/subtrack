@@ -18,28 +18,28 @@ export default async function Home() {
 
         <Nav user={user} transparent />
 
-        <div className="relative max-w-6xl mx-auto px-6 pt-12 sm:pt-16 pb-16 md:pb-20">
+        <div className="relative max-w-6xl mx-auto px-4 md:px-6 pt-12 sm:pt-16 pb-16 md:pb-20">
           <div className="flex flex-col md:flex-row md:items-center md:gap-8 lg:gap-12">
             {/* Left: text */}
             <div className="md:w-1/2 text-center md:text-left">
-              <h1 className="text-5xl sm:text-6xl font-semibold text-[#191C1F] tracking-tight leading-[1.1]">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-semibold text-[#191C1F] tracking-tight leading-[1.1]">
                 One dashboard.
                 <br />
                 Every subscription.
               </h1>
-              <p className="mt-5 text-lg sm:text-xl text-gray-500 max-w-lg leading-relaxed">
+              <p className="mt-5 text-base sm:text-lg md:text-xl text-gray-500 max-w-lg leading-relaxed">
                 Know who&apos;s paying, who&apos;s not, and what to do about it.
               </p>
-              <div className="mt-8 flex items-center justify-center md:justify-start gap-3">
+              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
                 <Link
                   href="/auth/signup"
-                  className="px-7 py-3 text-sm font-medium text-white bg-[#191C1F] rounded-full hover:bg-[#2a2d31] transition-colors duration-150"
+                  className="w-full sm:w-auto text-center px-7 py-3 text-sm font-medium text-white bg-[#191C1F] rounded-full hover:bg-[#2a2d31] transition-colors duration-150"
                 >
                   Start free
                 </Link>
                 <Link
                   href="/pricing"
-                  className="px-7 py-3 text-sm font-medium text-[#191C1F] border border-gray-300 rounded-full hover:bg-gray-50 transition-colors duration-150"
+                  className="w-full sm:w-auto text-center px-7 py-3 text-sm font-medium text-[#191C1F] border border-gray-300 rounded-full hover:bg-gray-50 transition-colors duration-150"
                 >
                   View pricing
                 </Link>
@@ -55,9 +55,9 @@ export default async function Home() {
       </section>
 
       {/* Features */}
-      <section className="max-w-6xl mx-auto px-6 pt-8 pb-24">
+      <section className="max-w-6xl mx-auto px-4 md:px-6 pt-8 pb-24">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="bg-[#F7F7F7] rounded-xl p-7 border border-transparent hover:border-[#191C1F] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200">
+          <div className="bg-[#F7F7F7] rounded-xl p-5 md:p-7 border border-transparent hover:border-[#191C1F] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200">
             <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mb-4 shadow-sm">
               <svg className="w-7 h-7 text-[#191C1F]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
@@ -71,7 +71,7 @@ export default async function Home() {
               No setup, no config — it just works.
             </p>
           </div>
-          <div className="bg-[#F7F7F7] rounded-xl p-7 border border-transparent hover:border-[#191C1F] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200">
+          <div className="bg-[#F7F7F7] rounded-xl p-5 md:p-7 border border-transparent hover:border-[#191C1F] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200">
             <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mb-4 shadow-sm">
               <svg className="w-7 h-7 text-[#191C1F]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
@@ -85,7 +85,7 @@ export default async function Home() {
               customers manage their own invoices through a self-serve portal.
             </p>
           </div>
-          <div className="bg-[#F7F7F7] rounded-xl p-7 border border-transparent hover:border-[#191C1F] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200">
+          <div className="bg-[#F7F7F7] rounded-xl p-5 md:p-7 border border-transparent hover:border-[#191C1F] hover:-translate-y-0.5 hover:shadow-md transition-all duration-200">
             <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mb-4 shadow-sm">
               <svg className="w-7 h-7 text-[#191C1F]" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
@@ -103,14 +103,14 @@ export default async function Home() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="bg-[#0A0A0A] py-20 text-center">
-        <h2 className="text-2xl font-semibold text-white tracking-tight">
+      <section className="bg-[#0A0A0A] py-16 md:py-20 text-center px-6">
+        <h2 className="text-xl md:text-2xl font-semibold text-white tracking-tight">
           Free to start. Upgrade when it pays for itself.
         </h2>
         <div className="mt-6">
           <Link
             href="/auth/signup"
-            className="inline-block px-7 py-3 text-sm font-medium text-white border border-white/20 rounded-full hover:bg-white/10 transition-colors duration-150"
+            className="inline-block w-full sm:w-auto max-w-xs px-7 py-3 text-sm font-medium text-white border border-white/20 rounded-full hover:bg-white/10 transition-colors duration-150"
           >
             Create your account
           </Link>
@@ -119,7 +119,7 @@ export default async function Home() {
 
       {/* Footer */}
       <footer className="bg-white py-8 text-center">
-        <div className="flex items-center justify-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-4 px-4">
           <span className="text-sm text-gray-400">Built by Bitcoineo</span>
           <a
             href="https://github.com"

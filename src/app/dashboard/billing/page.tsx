@@ -47,7 +47,7 @@ export default async function BillingPage() {
         </div>
       )}
 
-      <div className="bg-white rounded-xl shadow-sm p-7">
+      <div className="bg-white rounded-xl shadow-sm p-5 md:p-7">
         <div className="flex items-start justify-between">
           <div>
             <h2 className="text-lg font-semibold text-[#191C1F]">

@@ -63,24 +63,24 @@ export default async function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">
           <p className="text-sm text-gray-500">Projects</p>
-          <p className="mt-2 text-3xl font-semibold text-[#191C1F]">
+          <p className="mt-2 text-2xl md:text-3xl font-semibold text-[#191C1F]">
             {projectCount}
             <span className="text-base font-normal text-gray-400">
               {" "}/ {limitLabel}
             </span>
           </p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">
           <p className="text-sm text-gray-500">Plan</p>
-          <p className="mt-2 text-3xl font-semibold text-[#191C1F] capitalize">
+          <p className="mt-2 text-2xl md:text-3xl font-semibold text-[#191C1F] capitalize">
             {plan}
           </p>
         </div>
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white rounded-xl shadow-sm p-4 md:p-6">
           <p className="text-sm text-gray-500">Billing Period</p>
-          <p className="mt-2 text-3xl font-semibold text-[#191C1F] capitalize">
+          <p className="mt-2 text-2xl md:text-3xl font-semibold text-[#191C1F] capitalize">
             {dbUser.planPeriod ?? "\u2014"}
           </p>
         </div>
@@ -89,7 +89,7 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Link
           href="/dashboard/projects"
-          className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow duration-150"
+          className="bg-white rounded-xl shadow-sm p-4 md:p-6 hover:shadow-md transition-shadow duration-150"
         >
           <h3 className="text-base font-semibold text-[#191C1F]">
             Your projects
@@ -100,7 +100,7 @@ export default async function DashboardPage() {
         </Link>
         <Link
           href="/dashboard/billing"
-          className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow duration-150"
+          className="bg-white rounded-xl shadow-sm p-4 md:p-6 hover:shadow-md transition-shadow duration-150"
         >
           <h3 className="text-base font-semibold text-[#191C1F]">Plan & billing</h3>
           <p className="mt-1 text-sm text-gray-500">

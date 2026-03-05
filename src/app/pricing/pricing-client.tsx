@@ -117,9 +117,9 @@ export function PricingClient({
   };
 
   return (
-      <main className="max-w-6xl mx-auto px-6 py-16">
+      <main className="max-w-6xl mx-auto px-4 md:px-6 py-10 md:py-16">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-semibold text-[#191C1F] tracking-tight">
+          <h1 className="text-2xl md:text-4xl font-semibold text-[#191C1F] tracking-tight">
             Three plans. No surprises.
           </h1>
           <p className="mt-4 text-gray-500 max-w-lg mx-auto">
@@ -165,7 +165,7 @@ export function PricingClient({
             return (
               <div
                 key={plan.id}
-                className={`relative rounded-xl p-7 flex flex-col ${
+                className={`relative rounded-xl p-5 md:p-7 flex flex-col ${
                   isProCard
                     ? "border-2 border-[#191C1F] shadow-sm"
                     : "border border-gray-200"

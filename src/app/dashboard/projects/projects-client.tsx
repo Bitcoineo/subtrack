@@ -74,7 +74,7 @@ export function ProjectsClient({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between gap-3 mb-6">
         <p className="text-sm text-gray-500">
           {projects.length}
           {limit !== null ? ` / ${limit}` : ""} projects
@@ -90,7 +90,7 @@ export function ProjectsClient({
           <button
             onClick={() => setShowForm(true)}
             disabled={!canCreate && atLimit}
-            className="px-5 py-2 bg-[#191C1F] text-white text-sm font-medium rounded-full hover:bg-[#2a2d31] transition-colors duration-150 disabled:opacity-50"
+            className="px-5 py-2 bg-[#191C1F] text-white text-sm font-medium rounded-full hover:bg-[#2a2d31] transition-colors duration-150 disabled:opacity-50 shrink-0"
           >
             New Project
           </button>
@@ -171,10 +171,10 @@ export function ProjectsClient({
           {projects.map((project) => (
             <div
               key={project.id}
-              className="px-5 py-4 flex items-center justify-between"
+              className="px-4 md:px-5 py-4 flex items-center justify-between gap-3"
             >
-              <div>
-                <h3 className="text-sm font-medium text-[#191C1F]">
+              <div className="min-w-0">
+                <h3 className="text-sm font-medium text-[#191C1F] truncate">
                   {project.name}
                 </h3>
                 {project.description && (
@@ -189,7 +189,7 @@ export function ProjectsClient({
               <button
                 onClick={() => handleDelete(project.id)}
                 disabled={deletingId === project.id}
-                className="text-sm text-gray-400 hover:text-[#E5484D] disabled:opacity-50 transition-colors duration-150"
+                className="text-sm text-gray-400 hover:text-[#E5484D] disabled:opacity-50 transition-colors duration-150 shrink-0 py-1 pl-3"
               >
                 {deletingId === project.id ? "Deleting..." : "Delete"}
               </button>

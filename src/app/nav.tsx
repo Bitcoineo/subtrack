@@ -91,7 +91,7 @@ export function Nav({ user, transparent }: NavProps) {
 
         {/* Right: Mobile toggle */}
         <button
-          className="md:hidden p-1 text-[#191C1F]"
+          className="md:hidden p-2 -mr-2 text-[#191C1F]"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
